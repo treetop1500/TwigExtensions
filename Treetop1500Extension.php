@@ -18,8 +18,12 @@ class Treetop1500Extension extends \Twig_Extension
 	public function getFunctions()
 	{
 		return array(
-		  'fractions' => new \Twig_SimpleFunction('fractions', array($this, 'decimalToFraction')),
-          'lipsum' => new \Twig_SimpleFunction('lipsum', array($this, 'getLipsum')),
+		  'fractions' => new \Twig_SimpleFunction('fractions',
+		    array($this, 'decimalToFraction')
+		  ),
+          'lipsum' => new \Twig_SimpleFunction('lipsum',
+            array($this, 'getLipsum')
+          ),
 		);
 	}
 
@@ -29,20 +33,36 @@ class Treetop1500Extension extends \Twig_Extension
 	public function getFilters()
 	{
 		return array(
-		  'truecheck' => new \Twig_SimpleFilter('truecheck', array($this, 'isTrueCheck'),
-		    array('is_safe' => array('html'))),
+		  'truecheck' => new \Twig_SimpleFilter('truecheck',
+		    array($this, 'isTrueCheck'),
+		    array('is_safe' => array('html'))
+		  ),
 
-		  'tel' => new \Twig_SimpleFilter('tel', array($this, 'formatTelephone'),
-		    array('is_safe' => array('html'))), //formats tags from an array
+		  'tel' => new \Twig_SimpleFilter('tel',
+		    array($this, 'formatTelephone'),
+		    array('is_safe' => array('html'))
+		  ),
 
-		  'url' => new \Twig_SimpleFilter('url', array($this, 'addhttp')),
+		  'url' => new \Twig_SimpleFilter('url',
+		    array($this, 'addhttp')
+		  ),
 
-		  'bullets' => new \Twig_SimpleFilter('bullets', array($this, 'convertToBullets'),
-		    array('is_safe' => array('html'))),
+		  'bullets' => new \Twig_SimpleFilter('bullets',
+		    array($this, 'convertToBullets'),
+		    array('is_safe' => array('html'))
+		  ),
 
-		  'snippet' => new \Twig_SimpleFilter('snippet',array($this,'snippet')),
+		  'snippet' => new \Twig_SimpleFilter('snippet',
+		    array($this,'snippet')
+		  ),
 
-		  'cleanString' => new \Twig_SimpleFilter('cleanString',array($this,'cleanString')),
+		  'cleanString' => new \Twig_SimpleFilter('cleanString',
+		    array($this,'cleanString')
+		  ),
+
+		  'truncateFileName' => new \Twig_SimpleFilter('truncateFileName',
+		    array($this,'truncateFileName')
+		  )
 
 		);
 	}
@@ -194,4 +214,18 @@ class Treetop1500Extension extends \Twig_Extension
 	}
 
 
+	/**
+	 * @param $filename
+	 * @return string
+	 * truncates really long file names but keeps the file ending.
+	 * Turns file names like alsdk02340983w0jskdsfl0230408weruwerwsfsdflalsdkfjasksji948snoiw.png
+	 * to something like alsdk02340983w0...ksji948snoiw.png
+	 */
+	public function truncateFileName($filename){
+		if (strlen($filename) > 36) {
+			return substr($filename, 0, 16) . "..." . substr($filename, -16);
+		}
+
+		return $filename;
+	}
 }
