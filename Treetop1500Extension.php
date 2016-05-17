@@ -62,7 +62,11 @@ class Treetop1500Extension extends \Twig_Extension
 
 		  'truncateFileName' => new \Twig_SimpleFilter('truncateFileName',
 		    array($this,'truncateFileName')
-		  )
+		  ),
+
+		 'getFileExtension' => new \Twig_simpleFilter('getFileExtension',
+		   array($this,'getFileExtension')
+		 )
 
 		);
 	}
@@ -228,4 +232,25 @@ class Treetop1500Extension extends \Twig_Extension
 
 		return $filename;
 	}
+
+
+	/**
+	 * @param $path
+	 * @return mixed
+	 * returns the file extension from a path.
+	 * For instance $path = 'http://grayloon.com/images/foo.png' would return 'png'
+	 */
+	public function getFileExtension($path) {
+
+		$path_parts = pathinfo($path);
+
+		return  $path_parts['extension'];
+
+	}
+
+
+
+
+
+
 }
