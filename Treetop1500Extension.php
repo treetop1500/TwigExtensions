@@ -66,10 +66,22 @@ class Treetop1500Extension extends \Twig_Extension
 
 		 'getFileExtension' => new \Twig_simpleFilter('getFileExtension',
 		   array($this,'getFileExtension')
-		 )
-
+		 ),
+		
+		'parseInput' => new \Twig_SimpleFilter('parseInput',
+                   array($this, 'parseInput'),array('is_safe' => array('html'))),
 		);
 	}
+
+	/**
+	 * @param $val
+	 * @return mixed
+	 * Current just wraps non-superscripted regiestered trademarks with <sup> tags.
+	 */
+	 public function parseInput($val)
+	 {
+		return preg_replace("/(?!\<sup\>)(\®)(?!\<\/sup\>)/i","<sup>®</sup>",$val);
+	 }
 
 	/**
 	 * @param $trunc : number of characters to return
